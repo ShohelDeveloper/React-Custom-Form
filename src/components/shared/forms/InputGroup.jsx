@@ -16,12 +16,11 @@ const ErrorMessage = styled.div`
 font-size:0.8rem;
 color:red;
 `
-const InputGroup = ({label,name,value,placeholder,error}) => {
+const InputGroup = ({label,name,handelBlur,placeholder,error,onChange,onFocus}) => {
   return (
     <Container>
       <Label htmlFor = {name} >{ label}</Label>
-      <TextInput name={name} id={name} placeholder={placeholder ?? ''} />
-      <Button>{value}</Button>
+      <TextInput name={name} id={name} placeholder={placeholder ?? ''} onChange={onChange} onFocus={onFocus} error={error} onblur = {handelBlur} />
       {error && <ErrorMessage>{error} </ErrorMessage>}
     </Container>
   )
