@@ -43,7 +43,7 @@ function App() {
   };
 
   const handelBlur = (e) => {
-    const key = e.target;
+    const key = e.target.name;
     console.log(key);
     const { errorStore } = checkValidity(values);
 
