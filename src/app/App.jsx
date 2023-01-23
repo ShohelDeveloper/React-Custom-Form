@@ -10,7 +10,7 @@ const init = {
 function App() {
   const [values, setValues] = useState({ ...init });
   const [errors, setErrors] = useState({ ...init });
-  const [focuse, setFocuses] = useState({
+  const [focuses, setFocuses] = useState({
     title: false,
     bio: false,
     skills: false,
@@ -24,14 +24,14 @@ function App() {
 
   const handelSubmit = (e) => {
     e.preventDefault();
-    const { isValid, errorStore } = checkValidity(values);
+    const { isValid, errors } = checkValidity(values);
     console.log(isValid);
-    console.log(errorStore);
+    console.log(errors);
     if (isValid) {
       console.log(values);
-      setErrors({ ...errorStore }); //probleam
+      setErrors({ ...errors }); //probleam
     } else {
-      setErrors({ ...errorStore });
+      setErrors({ ...errors });
     }
   };
 
@@ -44,34 +44,38 @@ function App() {
 
   const handelBlur = (e) => {
     const key = e.target.name;
-    console.log(key);
-    const { errorStore } = checkValidity(values);
+    const { errors } = checkValidity(values);
 
-    if (errorStore[key] && focuse[key] === true) {
+    if (errors[key] && focuses[key] === true) {
       setErrors((prev) => ({
         ...prev,
         [key]: errors[key],
       }));
+    } else {
+       setErrors((prev) => ({
+        ...prev,
+        [key]: '',
+      }))
     }
   };
 
-  const checkValidity = (valueStore) => {
-    const errorStore = {}; //probleam
-    console.log(errorStore);
-    const { title, bio, skills } = valueStore;
+  const checkValidity = (values) => {
+    const errors = {}; //probleam
+    console.log(errors);
+    const { title, bio, skills } = values;
 
     if (!title) {
-      errorStore.title = "Invalid Title";
+      errors.title = "Invalid Title";
     }
     if (!bio) {
-      errorStore.bio = "Invalid Bio";
+      errors.bio = "Invalid Bio";
     }
     if (!skills) {
-      errorStore.skills = "Invalid Skills";
+      errors.skills = "Invalid Skills";
     }
     return {
-      errorStore,
-      isValid: Object.keys(errorStore).length === 0, //probleam
+      errors,
+      isValid: Object.keys(errors).length === 0, //probleam
     };
   };
 
@@ -84,10 +88,11 @@ function App() {
             label={"Title:"}
             name={"title"}
             placeholder={"Software Engineer"}
+            error={errors.title}
             onChange={handelChange}
             onFocus={handelFocus}
             onBlur={handelBlur}
-            error={errors.title}
+            
           />
 
           <InputGroup
@@ -95,10 +100,10 @@ function App() {
             label={"Bio:"}
             name={"bio"}
             placeholder={"i am a software engineer"}
+            error={errors.bio}
             onChange={handelChange}
             onFocus={handelFocus}
             onBlur={handelBlur}
-            error={errors.bio}
           />
 
           <InputGroup
